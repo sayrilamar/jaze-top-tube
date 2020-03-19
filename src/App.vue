@@ -23,6 +23,7 @@ import Header from "./components/layout/Header";
 import SearchForm from "./components/SearchForm";
 import SearchResults from "./components/SearchResults";
 import Pagination from "./components/Pagination";
+import moment from "moment";
 
 export default {
   name: "App",
@@ -33,6 +34,8 @@ export default {
     Pagination
   },
   data() {
+    const today = new Date();
+    const pdate = moment(today).subtract(6, "month");
     return {
       videos: [],
       reformattedSearchString: "",
@@ -40,9 +43,10 @@ export default {
         baseUrl: "https://www.googleapis.com/youtube/v3/search?",
         part: "snippet",
         type: "video",
-        order: "rating",
-        maxResults: 20,
+        order: "viewCount",
+        maxResults: 25,
         q: "",
+        publishedAfter: pdate.toISOString(),
         key: "AIzaSyAsErzsesQAWxdkT7OAmS4QNqHDNIEuenc",
         prevPageToken: "",
         nextPageToken: ""
@@ -53,8 +57,17 @@ export default {
     search(searchParams) {
       this.reformattedSearchString = searchParams.join(" ");
       this.api.q = searchParams.join("+");
-      const { baseUrl, part, type, order, maxResults, q, key } = this.api;
-      const apiUrl = `${baseUrl}part=${part}&type=${type}&order=${order}&q=${q}&maxResults=${maxResults}&key=${key}`;
+      const {
+        baseUrl,
+        part,
+        type,
+        order,
+        maxResults,
+        q,
+        key,
+        publishedAfter
+      } = this.api;
+      const apiUrl = `${baseUrl}part=${part}&type=${type}&publishedAfter=${publishedAfter}&order=${order}&q=${q}&maxResults=${maxResults}&key=${key}`;
       this.getData(apiUrl);
     },
     prevPage() {
