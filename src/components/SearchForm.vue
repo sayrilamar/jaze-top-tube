@@ -40,7 +40,7 @@ export default {
         // Split search string
         const searchParams = trimmedSearchString.split(/\s+/);
         // Emit event
-        this.$$emit("search", searchParams);
+        this.$emit("search", searchParams);
         // Reset input field
         this.searchString = "";
       }

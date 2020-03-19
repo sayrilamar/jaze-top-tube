@@ -40,7 +40,7 @@ export default {
         baseUrl: "https://www.googleapis.com/youtube/v3/search?",
         part: "snippet",
         type: "video",
-        order: "viewCount",
+        order: "rating",
         maxResults: 20,
         q: "",
         key: "AIzaSyAsErzsesQAWxdkT7OAmS4QNqHDNIEuenc",
